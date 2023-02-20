@@ -1,0 +1,76 @@
+/* partie interface */
+/****************Pile.h****************/
+void creer_pile();
+unsigned pile_vide( void);
+int dernier ( void );
+void empiler ( int );
+void depiler (void);
+
+
+          /* partie implementation */
+/****************Pile.c****************/
+#include<assert.h>
+#include"pile.h"
+#include <stdlib.h>
+struct element
+{
+    int cle;
+    struct element * suivant ;
+};
+struct element *p;
+
+void creer_pile()
+{
+    p= NULL;
+}
+unsigned pile_vide( )
+{
+    return (p==NULL);
+}
+int dernier ( )
+{
+    assert (!pile_vide ());
+    return p->cle;
+}
+void empiler ( int info)
+{
+    struct element *q;
+    q=(struct element*) malloc (sizeof (struct element ));
+    q->cle =info;
+    q->suivant =p;
+    p=q ;
+}
+void depiler ()
+{
+    struct element *q;
+    assert(!pile_vide());
+    q=p ;
+    p=p->suivant;
+    free(q);
+}
+
+
+# include <stdio.h>
+# include "pile.h"
+void main()
+{
+    int i,x,n;
+    printf("Chargement de P\n");
+    printf("entrer nombre d'elements : ");
+    scanf("%d",&n);
+    creer_pile();
+    for(i=1;i<=n;i++)
+    {
+        printf("donner un entier :");
+        scanf("%d",&x);
+        empiler(x);
+    }
+    printf("\n ****le contenu de la pile P**** \n");
+    while(!pile_vide())
+    {
+        printf("%d\t ",dernier());
+        depiler();
+    }
+
+}
+
